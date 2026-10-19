@@ -1623,6 +1623,7 @@ sortEqualScoresOneNQ(size_t nq_begin,
                 PkType temp_pk =
                     std::move(search_result->primary_keys_[start + i]);
                 int64_t temp_offset = search_result->seg_offsets_[start + i];
+                float temp_distance = search_result->distances_[start + i];
                 int32_t temp_elem_idx =
                     has_element_level
                         ? search_result->element_indices_[start + i]
@@ -1641,6 +1642,8 @@ sortEqualScoresOneNQ(size_t nq_begin,
                         std::move(search_result->primary_keys_[start + next]);
                     search_result->seg_offsets_[start + curr] =
                         search_result->seg_offsets_[start + next];
+                    search_result->distances_[start + curr] =
+                        search_result->distances_[start + next];
                     if (has_element_level) {
                         search_result->element_indices_[start + curr] =
                             search_result->element_indices_[start + next];
@@ -1657,6 +1660,7 @@ sortEqualScoresOneNQ(size_t nq_begin,
 
                 search_result->primary_keys_[start + curr] = std::move(temp_pk);
                 search_result->seg_offsets_[start + curr] = temp_offset;
+                search_result->distances_[start + curr] = temp_distance;
                 if (has_element_level) {
                     search_result->element_indices_[start + curr] =
                         temp_elem_idx;
